@@ -34,29 +34,32 @@ class _RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
   final _saved = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18.0);
+  bool gridMode = false;
 
   void _pushSaved() {
-    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) {
-      final tiles = _saved.map((pair) {
-        return ListTile(
-          title: Text(
-            pair.asPascalCase,
-            style: _biggerFont,
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (context) {
+        final tiles = _saved.map((pair) {
+          return ListTile(
+            title: Text(
+              pair.asPascalCase,
+              style: _biggerFont,
+            ),
+          );
+        });
+
+        final divided = tiles.isNotEmpty
+            ? ListTile.divideTiles(context: context, tiles: tiles).toList()
+            : <Widget>[];
+
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Saved Suggestions'),
           ),
+          body: ListView(children: divided),
         );
-      });
-
-      final divided = tiles.isNotEmpty
-          ? ListTile.divideTiles(context: context, tiles: tiles).toList()
-          : <Widget>[];
-
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Saved Suggestions'),
-        ),
-        body: ListView(children: divided),
-      );
-    }));
+      }),
+    );
   }
 
   @override
@@ -68,43 +71,72 @@ class _RandomWordsState extends State<RandomWords> {
           IconButton(onPressed: _pushSaved, icon: const Icon(Icons.list))
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemBuilder: (context, i) {
-          if (i.isOdd) return const Divider();
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Grid Mode',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Switch(
+                  value: gridMode,
+                  onChanged: (value) {
+                    setState(() {
+                      gridMode = value;
+                    });
+                  },
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(16),
+              itemBuilder: (context, int i) {
+                if (i >= _suggestions.length) {
+                  _suggestions.addAll(generateWordPairs().take(10));
+                }
 
-          final index = i ~/ 2; /*3*/
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10));
-          }
-
-          return _buildRow(_suggestions[index]);
-        },
+                return _buildRow(_suggestions[i]);
+              },
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: gridMode ? 2 : 1,
+                mainAxisExtent: 65,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildRow(WordPair pair) {
     final alreadySaved = _saved.contains(pair);
-    return ListTile(
-      title: Text(
-        pair.asPascalCase,
-        style: _biggerFont,
+    return Card(
+      child: ListTile(
+        title: Text(
+          pair.asPascalCase,
+          style: _biggerFont,
+        ),
+        trailing: Icon(
+          alreadySaved ? Icons.favorite : Icons.favorite_border,
+          color: alreadySaved ? Colors.red : null,
+          semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
+        ),
+        onTap: () {
+          setState(() {
+            if (alreadySaved) {
+              _saved.remove(pair);
+            } else {
+              _saved.add(pair);
+            }
+          });
+        },
       ),
-      trailing: Icon(
-        alreadySaved ? Icons.favorite : Icons.favorite_border,
-        color: alreadySaved ? Colors.red : null,
-        semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
-      ),
-      onTap: () {
-        setState(() {
-          if (alreadySaved) {
-            _saved.remove(pair);
-          } else {
-            _saved.add(pair);
-          }
-        });
-      },
     );
   }
 }
