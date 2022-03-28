@@ -1,3 +1,5 @@
+import 'package:dsi2021_1/gridController.dart';
+import 'package:dsi2021_1/pairRow.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
@@ -69,6 +71,24 @@ class _RandomWordsState extends State<RandomWords> {
     });
   }
 
+  void saveSuggestion(WordPair pair) {
+    setState(() {
+      _saved.add(pair);
+    });
+  }
+
+  void unSaveSuggestion(WordPair pair) {
+    setState(() {
+      _saved.remove(pair);
+    });
+  }
+
+  void toggleGrid(bool value) {
+    setState(() {
+      gridMode = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,35 +100,24 @@ class _RandomWordsState extends State<RandomWords> {
       ),
       body: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Grid Mode',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Switch(
-                  value: gridMode,
-                  onChanged: (value) {
-                    setState(() {
-                      gridMode = value;
-                    });
-                  },
-                )
-              ],
-            ),
-          ),
+          GridController(isGridMode: gridMode, toggleGrid: toggleGrid),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(10),
               itemBuilder: (context, int i) {
                 if (i >= _suggestions.length) {
                   _suggestions.addAll(generateWordPairs().take(10));
                 }
 
-                return _buildRow(_suggestions[i], i);
+                var currentPair = _suggestions[i];
+
+                return PairRow(
+                  pair: currentPair,
+                  alreadySaved: _saved.contains(currentPair),
+                  removePair: removeSuggestion,
+                  save: saveSuggestion,
+                  unSave: unSaveSuggestion,
+                );
               },
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: gridMode ? 2 : 1,
@@ -117,51 +126,6 @@ class _RandomWordsState extends State<RandomWords> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildRow(WordPair pair, int index) {
-    final alreadySaved = _saved.contains(pair);
-    return Card(
-      child: Dismissible(
-        onDismissed: (direction) {
-          removeSuggestion(pair);
-        },
-        background: Container(
-          color: Colors.red,
-          child: Container(
-            child: const Text(
-              "Remover",
-              style: TextStyle(fontSize: 18, color: Colors.white),
-            ),
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-          ),
-        ),
-        key: Key(pair.asSnakeCase),
-        child: ListTile(
-          title: Text(
-            pair.asPascalCase,
-            style: _biggerFont,
-          ),
-          trailing: IconButton(
-            icon: Icon(
-              alreadySaved ? Icons.favorite : Icons.favorite_border,
-              color: alreadySaved ? Colors.red : null,
-            ),
-            tooltip: 'Favoritar Nome',
-            onPressed: () {
-              setState(() {
-                if (alreadySaved) {
-                  _saved.remove(pair);
-                } else {
-                  _saved.add(pair);
-                }
-              });
-            },
-          ),
-        ),
       ),
     );
   }
