@@ -62,9 +62,10 @@ class _RandomWordsState extends State<RandomWords> {
     );
   }
 
-  void removeSuggestion(index) {
+  void removeSuggestion(WordPair pair) {
     setState(() {
-      _suggestions.removeAt(index);
+      _suggestions.remove(pair);
+      _saved.remove(pair);
     });
   }
 
@@ -125,7 +126,7 @@ class _RandomWordsState extends State<RandomWords> {
     return Card(
       child: Dismissible(
         onDismissed: (direction) {
-          removeSuggestion(index);
+          removeSuggestion(pair);
         },
         background: Container(
           color: Colors.red,
