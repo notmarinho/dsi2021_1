@@ -62,6 +62,12 @@ class _RandomWordsState extends State<RandomWords> {
     );
   }
 
+  void removeSuggestion(index) {
+    setState(() {
+      _suggestions.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +107,7 @@ class _RandomWordsState extends State<RandomWords> {
                   _suggestions.addAll(generateWordPairs().take(10));
                 }
 
-                return _buildRow(_suggestions[i]);
+                return _buildRow(_suggestions[i], i);
               },
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: gridMode ? 2 : 1,
@@ -114,28 +120,47 @@ class _RandomWordsState extends State<RandomWords> {
     );
   }
 
-  Widget _buildRow(WordPair pair) {
+  Widget _buildRow(WordPair pair, int index) {
     final alreadySaved = _saved.contains(pair);
     return Card(
-      child: ListTile(
-        title: Text(
-          pair.asPascalCase,
-          style: _biggerFont,
-        ),
-        trailing: Icon(
-          alreadySaved ? Icons.favorite : Icons.favorite_border,
-          color: alreadySaved ? Colors.red : null,
-          semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
-        ),
-        onTap: () {
-          setState(() {
-            if (alreadySaved) {
-              _saved.remove(pair);
-            } else {
-              _saved.add(pair);
-            }
-          });
+      child: Dismissible(
+        onDismissed: (direction) {
+          removeSuggestion(index);
         },
+        background: Container(
+          color: Colors.red,
+          child: Container(
+            child: const Text(
+              "Remover",
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+          ),
+        ),
+        key: Key(pair.asSnakeCase),
+        child: ListTile(
+          title: Text(
+            pair.asPascalCase,
+            style: _biggerFont,
+          ),
+          trailing: IconButton(
+            icon: Icon(
+              alreadySaved ? Icons.favorite : Icons.favorite_border,
+              color: alreadySaved ? Colors.red : null,
+            ),
+            tooltip: 'Favoritar Nome',
+            onPressed: () {
+              setState(() {
+                if (alreadySaved) {
+                  _saved.remove(pair);
+                } else {
+                  _saved.add(pair);
+                }
+              });
+            },
+          ),
+        ),
       ),
     );
   }
