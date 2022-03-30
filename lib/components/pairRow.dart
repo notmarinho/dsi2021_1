@@ -7,6 +7,7 @@ class PairRow extends StatelessWidget {
   final void Function(WordPair) removePair;
   final void Function(WordPair) save;
   final void Function(WordPair) unSave;
+  final void Function(WordPair) onRowPress;
 
   const PairRow({
     Key? key,
@@ -15,6 +16,7 @@ class PairRow extends StatelessWidget {
     required this.removePair,
     required this.save,
     required this.unSave,
+    required this.onRowPress,
   }) : super(key: key);
 
   @override
@@ -35,6 +37,7 @@ class PairRow extends StatelessWidget {
         background: const DismissBackground(),
         key: Key(pair.asSnakeCase),
         child: ListTile(
+          onTap: () => onRowPress(pair),
           title: Text(pair.asPascalCase),
           trailing: IconButton(
             icon: Icon(
