@@ -2,6 +2,7 @@ import 'package:dsi2021_1/models/par_palavra.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/appRoutes.dart';
+import '../models/par_palavra.dart';
 
 class PairEdit extends StatefulWidget {
   const PairEdit({Key? key}) : super(key: key);
@@ -11,36 +12,33 @@ class PairEdit extends StatefulWidget {
 }
 
 class _PairEditState extends State<PairEdit> {
-  final firstNameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool editMode = true;
 
   @override
   void initState() {
     super.initState();
-
-    firstNameController.addListener(() => setState(() {}));
   }
 
   void _pushList(ParPalavra editedPair) {
     Navigator.pop(context, editedPair);
-    // Navigator.of(context).pushNamed(AppRoutes.PAIR_LIST, arguments: editedPair);
-  }
-
-  String? validateField(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'O nome nao pode ser vazio';
-    }
-    return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    ParPalavra pair = ModalRoute.of(context)?.settings.arguments
-        as ParPalavra; // Palavra recebida atraves do navigation
+    ParPalavra? editedPair =
+        ModalRoute.of(context)?.settings.arguments as ParPalavra?;
+
+    if (editedPair == null) {
+      editedPair = ParPalavra('', '');
+      setState(() {
+        editMode = false;
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Editar Nome'),
+        title: Text(editMode ? 'Editar Nome' : 'Adicionar Nome'),
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
@@ -52,11 +50,8 @@ class _PairEditState extends State<PairEdit> {
               child: Column(
                 children: [
                   TextFormField(
-                    validator: validateField,
-                    initialValue: pair.primeira,
-                    onChanged: (newValue) => setState(() {
-                      pair.primeira = newValue;
-                    }),
+                    initialValue: editedPair.primeira,
+                    onChanged: (newValue) => editedPair!.primeira = newValue,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Primeiro nome',
@@ -67,11 +62,8 @@ class _PairEditState extends State<PairEdit> {
                     padding: const EdgeInsets.all((10)),
                   ),
                   TextFormField(
-                    validator: validateField,
-                    initialValue: pair.segunda,
-                    onChanged: (newValue) => setState(() {
-                      pair.segunda = newValue;
-                    }),
+                    initialValue: editedPair.segunda,
+                    onChanged: (newValue) => editedPair!.segunda = newValue,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Segundo nome',
@@ -84,8 +76,8 @@ class _PairEditState extends State<PairEdit> {
             SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => _pushList(pair),
-                  child: const Text("Editar"),
+                  onPressed: () => _pushList(editedPair!),
+                  child: Text(editMode ? "Editar" : 'Adicionar'),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 20),
                   ),

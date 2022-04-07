@@ -26,6 +26,10 @@ class ParPalavraRepository {
     ]);
   }
 
+  add(ParPalavra newPar) {
+    paresPalavra.insert(0, newPar);
+  }
+
   List<ParPalavra> getAll() {
     return paresPalavra;
   }

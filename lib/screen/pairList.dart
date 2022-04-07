@@ -23,9 +23,18 @@ class _PairListState extends State<PairList> {
   }
 
   Future<void> _pushEdit(ParPalavra pair) async {
-    var result = await Navigator.of(context)
-        .pushNamed(AppRoutes.PAIR_EDIT, arguments: pair);
+    await Navigator.of(context).pushNamed(AppRoutes.PAIR_EDIT, arguments: pair);
     setState(() {});
+  }
+
+  Future<void> _pushAdd() async {
+    var newPair = await Navigator.of(context).pushNamed(AppRoutes.PAIR_EDIT)
+        as ParPalavra?;
+    if (newPair != null) {
+      setState(() {
+        parPalavraRepositorio.add(newPair);
+      });
+    }
   }
 
   void removeSuggestion(ParPalavra pair) {
@@ -69,11 +78,6 @@ class _PairListState extends State<PairList> {
         )
         .toList();
 
-    // ParPalavra editedPair = ModalRoute.of(context)?.settings.arguments as ParPalavra;
-
-    // print("Edited Pair");
-    // print(editedPair);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('StartUp Name'),
@@ -86,7 +90,7 @@ class _PairListState extends State<PairList> {
           GridController(isGridMode: gridMode, toggleGrid: toggleGrid),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 100),
               itemCount: parPalavraRepositorio.getAll().length,
               itemBuilder: (context, int index) => PairRow(
                 pair: parPalavraRepositorio.getByIndex(index),
@@ -104,6 +108,11 @@ class _PairListState extends State<PairList> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _pushAdd,
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
       ),
     );
   }
