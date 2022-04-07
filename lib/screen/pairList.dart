@@ -23,12 +23,12 @@ class _PairListState extends State<PairList> {
   }
 
   Future<void> _pushEdit(ParPalavra pair) async {
-    await Navigator.of(context).pushNamed(AppRoutes.PAIR_EDIT, arguments: pair);
+    await Navigator.of(context).pushNamed(AppRoutes.PAIR_SET, arguments: pair);
     setState(() {});
   }
 
   Future<void> _pushAdd() async {
-    var newPair = await Navigator.of(context).pushNamed(AppRoutes.PAIR_EDIT)
+    var newPair = await Navigator.of(context).pushNamed(AppRoutes.PAIR_SET)
         as ParPalavra?;
     if (newPair != null) {
       setState(() {
@@ -64,20 +64,6 @@ class _PairListState extends State<PairList> {
 
   @override
   Widget build(BuildContext context) {
-    var parPalavraWidgets = parPalavraRepositorio
-        .getAll()
-        .map(
-          (parPalavra) => PairRow(
-            pair: parPalavra,
-            alreadySaved: _saved.contains(parPalavra),
-            removePair: removeSuggestion,
-            save: saveSuggestion,
-            unSave: unSaveSuggestion,
-            onRowPress: _pushEdit,
-          ),
-        )
-        .toList();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('StartUp Name'),

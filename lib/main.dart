@@ -1,4 +1,4 @@
-import 'package:dsi2021_1/screen/pairEdit.dart';
+import 'package:dsi2021_1/screen/pairSet.dart';
 import 'package:dsi2021_1/screen/pairList.dart';
 import 'package:dsi2021_1/screen/pairSaved.dart';
 import 'package:dsi2021_1/utils/appRoutes.dart';
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         AppRoutes.PAIR_LIST: (context) => const PairList(),
         AppRoutes.PAIR_SAVED: (context) => const PairSaved(),
-        AppRoutes.PAIR_EDIT: (context) => const PairEdit(),
+        AppRoutes.PAIR_SET: (context) => const PairEdit(),
       },
     );
   }
