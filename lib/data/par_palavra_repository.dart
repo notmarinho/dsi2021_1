@@ -1,29 +1,40 @@
-import 'package:english_words/english_words.dart';
+import 'package:dsi2021_1/models/par_palavra.dart';
 
 class ParPalavraRepository {
-  final List<WordPair> paresPalavra = [];
+  final List<ParPalavra> paresPalavra = [];
 
   ParPalavraRepository() {
     initWords();
   }
 
   void initWords() {
-    paresPalavra.addAll(generateWordPairs().take(20));
+    paresPalavra.addAll([
+      ParPalavra('Caes', 'Ceric'),
+      ParPalavra('Taxiorion', 'Beingoi'),
+      ParPalavra('Osxoadan', 'Pinruor'),
+      ParPalavra('Platen', 'Iskuwog'),
+      ParPalavra('Bokedor', 'Vupyegrim'),
+      ParPalavra('Nusni', 'Waxedin'),
+      ParPalavra('Nagpo', 'Baon'),
+      ParPalavra('Xuyci', 'Gatgou'),
+      ParPalavra('Farirandir', 'Ceric'),
+      ParPalavra('Ellouise', 'Marks'),
+      ParPalavra('Beatrice', 'Hale'),
+      ParPalavra('Magnus', 'Bell'),
+      ParPalavra('Piper', 'Mcgowan'),
+      ParPalavra('Levison', 'Drew'),
+    ]);
   }
 
-  void addMore() {
-    paresPalavra.addAll(generateWordPairs().take(10));
-  }
-
-  List<WordPair> getAll() {
+  List<ParPalavra> getAll() {
     return paresPalavra;
   }
 
-  WordPair getFirst() {
+  ParPalavra getFirst() {
     return paresPalavra.first;
   }
 
-  WordPair getByIndex(int index) {
+  ParPalavra getByIndex(int index) {
     return paresPalavra.elementAt(index);
   }
 }

@@ -1,13 +1,14 @@
+import 'package:dsi2021_1/models/par_palavra.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
 class PairRow extends StatelessWidget {
-  final WordPair pair;
+  final ParPalavra pair;
   final bool alreadySaved;
-  final void Function(WordPair) removePair;
-  final void Function(WordPair) save;
-  final void Function(WordPair) unSave;
-  final void Function(WordPair) onRowPress;
+  final void Function(ParPalavra) removePair;
+  final void Function(ParPalavra) save;
+  final void Function(ParPalavra) unSave;
+  final void Function(ParPalavra) onRowPress;
 
   const PairRow({
     Key? key,
@@ -35,10 +36,10 @@ class PairRow extends StatelessWidget {
           removePair(pair);
         },
         background: const DismissBackground(),
-        key: Key(pair.asSnakeCase),
+        key: Key(pair.toString()),
         child: ListTile(
           onTap: () => onRowPress(pair),
-          title: Text(pair.asPascalCase),
+          title: Text(pair.toString()),
           trailing: IconButton(
             icon: Icon(
               alreadySaved ? Icons.favorite : Icons.favorite_border,
