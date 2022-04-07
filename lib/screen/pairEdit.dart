@@ -57,16 +57,10 @@ class _PairEditState extends State<PairEdit> {
                     onChanged: (newValue) => setState(() {
                       pair.primeira = newValue;
                     }),
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
                       hintText: 'Primeiro nome',
                       labelText: 'Primeiro',
-                      suffixIcon: firstNameController.text.isEmpty
-                          ? Container(width: 0)
-                          : IconButton(
-                              onPressed: () => firstNameController.clear(),
-                              icon: const Icon(Icons.close),
-                            ),
                     ),
                   ),
                   Container(
@@ -78,22 +72,15 @@ class _PairEditState extends State<PairEdit> {
                     onChanged: (newValue) => setState(() {
                       pair.segunda = newValue;
                     }),
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
                       hintText: 'Segundo nome',
                       labelText: 'Segundo',
-                      suffixIcon: firstNameController.text.isEmpty
-                          ? Container(width: 0)
-                          : IconButton(
-                              onPressed: () => firstNameController.clear(),
-                              icon: const Icon(Icons.close),
-                            ),
                     ),
                   ),
                 ],
               ),
             ),
-            Text(pair.primeira),
             SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(

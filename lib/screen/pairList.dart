@@ -1,6 +1,5 @@
 import 'package:dsi2021_1/models/par_palavra.dart';
 import 'package:dsi2021_1/utils/appRoutes.dart';
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
 import '../components/pairRow.dart';
