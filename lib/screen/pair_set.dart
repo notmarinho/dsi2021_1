@@ -92,6 +92,11 @@ class _PairEditState extends State<PairEdit> {
               child: Column(
                 children: [
                   TextFormField(
+                    validator: (String? value) {
+                      return value != null && value.isEmpty
+                          ? 'Campo não pode ser vazio.'
+                          : null;
+                    },
                     initialValue: screenArguments.parPalavra.primeira,
                     onChanged: (newValue) =>
                         screenArguments.parPalavra.primeira = newValue,
@@ -105,6 +110,11 @@ class _PairEditState extends State<PairEdit> {
                     padding: const EdgeInsets.all((10)),
                   ),
                   TextFormField(
+                    validator: (String? value) {
+                      return value != null && value.isEmpty
+                          ? 'Campo não pode ser vazio.'
+                          : null;
+                    },
                     initialValue: screenArguments.parPalavra.segunda,
                     onChanged: (newValue) =>
                         screenArguments.parPalavra.segunda = newValue,
@@ -121,10 +131,14 @@ class _PairEditState extends State<PairEdit> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    editMode
-                        ? _editPalavra(screenArguments.documentId,
-                            screenArguments.parPalavra)
-                        : _addPalavra(screenArguments.parPalavra);
+                    if (_formKey.currentState!.validate()) {
+                      // If the form is valid, display a snackbar. In the real world,
+                      // you'd often call a server or save the information in a database.
+                      editMode
+                          ? _editPalavra(screenArguments.documentId,
+                              screenArguments.parPalavra)
+                          : _addPalavra(screenArguments.parPalavra);
+                    }
                   },
                   child: isLoading
                       ? const SizedBox(
