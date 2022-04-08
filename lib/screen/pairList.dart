@@ -1,8 +1,10 @@
+import 'package:dsi2021_1/components/fab_add_palavra.dart';
+import 'package:dsi2021_1/components/palavra_collection.dart';
 import 'package:dsi2021_1/models/par_palavra.dart';
+import 'package:dsi2021_1/screen/pairSet.dart';
 import 'package:dsi2021_1/utils/appRoutes.dart';
 import 'package:flutter/material.dart';
 
-import '../components/pairRow.dart';
 import '../data/par_palavra_repository.dart';
 import '../utils/gridController.dart';
 
@@ -22,38 +24,9 @@ class _PairListState extends State<PairList> {
     Navigator.of(context).pushNamed(AppRoutes.PAIR_SAVED, arguments: _saved);
   }
 
-  Future<void> _pushEdit(ParPalavra pair) async {
-    await Navigator.of(context).pushNamed(AppRoutes.PAIR_SET, arguments: pair);
-    setState(() {});
-  }
-
-  Future<void> _pushAdd() async {
-    var newPair = await Navigator.of(context).pushNamed(AppRoutes.PAIR_SET)
-        as ParPalavra?;
-    if (newPair != null) {
-      setState(() {
-        parPalavraRepositorio.add(newPair);
-      });
-    }
-  }
-
-  void removeSuggestion(ParPalavra pair) {
-    setState(() {
-      parPalavraRepositorio.paresPalavra.remove(pair);
-      _saved.remove(pair);
-    });
-  }
-
-  void saveSuggestion(ParPalavra pair) {
-    setState(() {
-      _saved.add(pair);
-    });
-  }
-
-  void unSaveSuggestion(ParPalavra pair) {
-    setState(() {
-      _saved.remove(pair);
-    });
+  _pushAdd() {
+    Navigator.of(context).pushNamed(AppRoutes.PAIR_SET,
+        arguments: PairSetArguments(ParPalavra('', '', false), null));
   }
 
   void toggleGrid(bool value) {
@@ -71,35 +44,8 @@ class _PairListState extends State<PairList> {
           IconButton(onPressed: _pushSaved, icon: const Icon(Icons.list))
         ],
       ),
-      body: Column(
-        children: [
-          GridController(isGridMode: gridMode, toggleGrid: toggleGrid),
-          Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 100),
-              itemCount: parPalavraRepositorio.getAll().length,
-              itemBuilder: (context, int index) => PairRow(
-                pair: parPalavraRepositorio.getByIndex(index),
-                alreadySaved:
-                    _saved.contains(parPalavraRepositorio.getByIndex(index)),
-                removePair: removeSuggestion,
-                save: saveSuggestion,
-                unSave: unSaveSuggestion,
-                onRowPress: _pushEdit,
-              ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: gridMode ? 2 : 1,
-                mainAxisExtent: 65,
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _pushAdd,
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.add),
-      ),
+      body: const PairCollection(),
+      floatingActionButton: const FabAddPalavra(),
     );
   }
 }

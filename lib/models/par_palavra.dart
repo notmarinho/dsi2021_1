@@ -1,12 +1,12 @@
 class ParPalavra {
   String primeira;
   String segunda;
+  bool isFavorite;
 
-  ParPalavra(this.primeira, this.segunda);
+  ParPalavra(this.primeira, this.segunda, this.isFavorite);
 
   @override
   String toString() {
-    // TODO: implement toString
     return '$primeira $segunda';
   }
 

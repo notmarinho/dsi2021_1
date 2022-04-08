@@ -9,20 +9,20 @@ class ParPalavraRepository {
 
   void initWords() {
     paresPalavra.addAll([
-      ParPalavra('Caes', 'Ceric'),
-      ParPalavra('Taxiorion', 'Beingoi'),
-      ParPalavra('Osxoadan', 'Pinruor'),
-      ParPalavra('Platen', 'Iskuwog'),
-      ParPalavra('Bokedor', 'Vupyegrim'),
-      ParPalavra('Nusni', 'Waxedin'),
-      ParPalavra('Nagpo', 'Baon'),
-      ParPalavra('Xuyci', 'Gatgou'),
-      ParPalavra('Farirandir', 'Ceric'),
-      ParPalavra('Ellouise', 'Marks'),
-      ParPalavra('Beatrice', 'Hale'),
-      ParPalavra('Magnus', 'Bell'),
-      ParPalavra('Piper', 'Mcgowan'),
-      ParPalavra('Levison', 'Drew'),
+      ParPalavra('Caes', 'Ceric', false),
+      ParPalavra('Taxiorion', 'Beingoi', false),
+      ParPalavra('Osxoadan', 'Pinruor', false),
+      ParPalavra('Platen', 'Iskuwog', false),
+      ParPalavra('Bokedor', 'Vupyegrim', false),
+      ParPalavra('Nusni', 'Waxedin', false),
+      ParPalavra('Nagpo', 'Baon', false),
+      ParPalavra('Xuyci', 'Gatgou', false),
+      ParPalavra('Farirandir', 'Ceric', false),
+      ParPalavra('Ellouise', 'Marks', false),
+      ParPalavra('Beatrice', 'Hale', false),
+      ParPalavra('Magnus', 'Bell', false),
+      ParPalavra('Piper', 'Mcgowan', false),
+      ParPalavra('Levison', 'Drew', false),
     ]);
   }
 
