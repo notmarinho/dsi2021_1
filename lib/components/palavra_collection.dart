@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsi2021_1/components/empty_message.dart';
 import 'package:dsi2021_1/components/palavra_card.dart';
 import 'package:dsi2021_1/models/par_palavra.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,10 @@ class _PairCollectionState extends State<PairCollection> {
           return const Center(
             child: Text('Nenhuma palavra inserida'),
           );
+        }
+
+        if (snapshot.data!.docs.isEmpty) {
+          return const EmptyMessage("Nenhuma palavra registrada");
         }
 
         return ListView(

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsi2021_1/screen/pair_set.dart';
 import 'package:dsi2021_1/screen/pair_list.dart';
 import 'package:dsi2021_1/screen/pair_saved.dart';

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsi2021_1/components/empty_message.dart';
 import 'package:dsi2021_1/models/par_palavra.dart';
 import 'package:flutter/material.dart';
 
@@ -37,14 +38,7 @@ class PairSaved extends StatelessWidget {
             }
 
             if (snapshot.data!.docs.isEmpty) {
-              return const Center(
-                  child: Text(
-                'Nenhum item favoritado',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ));
+              return const EmptyMessage("Nenhuma palavra favoritada");
             }
 
             return ListView(
