@@ -1,6 +1,7 @@
-import 'package:dsi2021_1/screen/pairSet.dart';
-import 'package:dsi2021_1/screen/pairList.dart';
-import 'package:dsi2021_1/screen/pairSaved.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsi2021_1/screen/pair_set.dart';
+import 'package:dsi2021_1/screen/pair_list.dart';
+import 'package:dsi2021_1/screen/pair_saved.dart';
 import 'package:dsi2021_1/utils/appRoutes.dart';
 
 import 'package:firebase_core/firebase_core.dart';

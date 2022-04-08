@@ -25,6 +25,7 @@ class _PairEditState extends State<PairEdit> {
   }
 
   Future<void> _editPalavra(String? documentId, ParPalavra editedPair) async {
+    FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
       isLoading = true;
     });
@@ -45,6 +46,7 @@ class _PairEditState extends State<PairEdit> {
   }
 
   Future<void> _addPalavra(ParPalavra? editedPair) {
+    FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
       isLoading = true;
     });

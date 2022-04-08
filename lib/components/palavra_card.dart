@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../models/par_palavra.dart';
-import '../screen/pairSet.dart';
+import '../screen/pair_set.dart';
 import '../utils/appRoutes.dart';
 
 class PalavraCard extends StatelessWidget {
@@ -18,9 +18,9 @@ class PalavraCard extends StatelessWidget {
   void instanceData(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
     parPalavra = ParPalavra(
-      data['primeira'],
-      data['segunda'],
-      data['isFavorite'],
+      isFavorite: data['isFavorite'],
+      primeira: data['primeira'],
+      segunda: data['segunda'],
     );
   }
 
